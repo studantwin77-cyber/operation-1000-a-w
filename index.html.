@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Operation: 1000 A–W</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #fff7fb;
+  color: #38283e;
+  margin: 0;
+  padding: 20px;
+}
+main {
+  max-width: 600px;
+  margin: auto;
+}
+h1 { color: #a34d87; }
+.card {
+  background: white;
+  padding: 18px;
+  margin: 15px 0;
+  border-radius: 16px;
+  box-shadow: 0 3px 12px #0000000d;
+}
+input, select, button {
+  font: inherit;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #e5c8df;
+  border-radius: 9px;
+}
+button {
+  background: #a34d87;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+.player {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.score { font-size: 24px; font-weight: bold; }
+.small { color: #796b7d; font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>🎯 Operation: 1000 A–W</h1>
+  <p>Two competitors. One goal. 1,000 points!</p>
+
+  <div class="card">
+    <h2>🏆 Scoreboard</h2>
+    <div class="player">
+      <div><strong>You</strong><div class="score" id="score0">0</div></div>
+      <div><strong>Alex</strong><div class="score" id="score1">0</div></div>
+    </div>
+    <p class="small">Goal: 1,000 points each</p>
+  </div>
+
+  <div class="card">
+    <h2>✨ Add or Deduct Points</h2>
+    <label for="player">Who?</label><br>
+    <select id="player">
+      <option value="0">You</option>
+      <option value="1">Alex</option>
+    </select><br>
+
+    <label for="reason">Reason</label><br>
+    <select id="reason">
+      <option value="150">Test/quiz score of 80% or higher (+150)</option>
+      <option value="10">Breakfast (+10)</option>
+      <option value="10">Lunch (+10)</option>
+      <option value="10">Dinner (+10)</option>
+      <option value="5">Stayed hydrated (+5)</option>
+      <option value="-50">Rule bending (-50)</option>
+      <option value="-100">Changed a rule (-100)</option>
+    </select><br>
+    <button onclick="addPoints()">Record points</button>
+    <p class="small">Please check the rules before recording points.</p>
+  </div>
+
+  <div class="card">
+    <h2>📜 Challenge Rules</h2>
+    <ul>
+      <li>🎯 Goal: 1,000 points</li>
+      <li>⚠️ Rule bending: −50 points</li>
+      <li>🔄 Changing rules: −100 points</li>
+      <li>📝 A test or quiz earns 150 points at 80% or higher.</li>
+      <li>🍳 Breakfast, lunch, and dinner: 10 points each.</li>
+      <li>💧 Staying hydrated: 5 points.</li>
+      <li>🌸 Each person decides when they genuinely need a mental break.</li>
+      <li>🗓️ Each person gets 10 days off for the school year.</li>
+      <li>🚑 During an agreed emergency pause, scoring freezes.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>📋 Activity Log</h2>
+    <ul id="log"><li>No points recorded yet.</li></ul>
+  </div>
+</main>
+
+<script>
+let scores = [0, 0];
+let entries = [];
+
+function addPoints() {
+  const p = Number(document.getElementById("player").value);
+  const select = document.getElementById("reason");
+  const points = Number(select.value);
+  const reason = select.options[select.selectedIndex].text;
+
+  scores[p] += points;
+  document.getElementById("score" + p).textContent = scores[p];
+
+  entries.unshift((p === 0 ? "You" : "Alex") + ": " +
+    reason + " | Total: " + scores[p]);
+
+  const log = document.getElementById("log");
+  log.innerHTML = "";
+  entries.forEach(entry => {
+    const li = document.createElement("li");
+    li.textContent = entry;
+    log.appendChild(li);
+  });
+}
+</script>
+</body>
+</html>
